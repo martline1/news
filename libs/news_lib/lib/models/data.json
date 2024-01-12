@@ -1,0 +1,32 @@
+{
+    "status": "ok",
+    "totalResults": 12730,
+    "articles": [
+        {
+            "source": {
+                "id": null,
+                "name": "CNET"
+            },
+            "author": "Jon Reed",
+            "title": "CES 2024: This Home Backup Battery Actually Costs Less Than $5,000 - CNET",
+            "description": "Goal Zero's Haven system only needs a couple hours of an electrician's time to install.",
+            "url": "https://www.cnet.com/home/energy-and-utilities/ces-2024-this-home-backup-battery-actually-costs-less-than-5000/",
+            "urlToImage": "https://www.cnet.com/a/img/resize/2b7b0f25f38fad306c5bdafa3a143db411e08858/hub/2024/01/10/bade3903-e4bc-41c1-91c1-36a8b5c67044/img-0916.jpg?auto=webp&fit=crop&height=675&width=1200",
+            "publishedAt": "2024-01-10T22:25:51Z",
+            "content": "Home battery backup systems can be a huge help when the power goes out. But they're expensive. Like $10,000 or more. I checked out a system at CES 2024 that, if not cheap, is at least a little more r… [+4015 chars]"
+        },
+        {
+            "source": {
+                "id": null,
+                "name": "ETF Daily News"
+            },
+            "author": "MarketBeat News",
+            "title": "Tesla, Inc. (NASDAQ:TSLA) Shares Sold by Bray Capital Advisors",
+            "description": "Bray Capital Advisors reduced its stake in Tesla, Inc. (NASDAQ:TSLA – Free Report) by 17.2% during the 3rd quarter, according to the company in its most recent filing with the SEC. The fund owned 1,719 shares of the electric vehicle producer’s stock after sel…",
+            "url": "https://www.etfdailynews.com/2024/01/10/tesla-inc-nasdaqtsla-shares-sold-by-bray-capital-advisors/",
+            "urlToImage": "https://www.americanbankingnews.com/wp-content/timthumb/timthumb.php?src=https://www.marketbeat.com/logos/tesla-inc-logo.png?v=20221020135629&w=240&h=240&zc=2",
+            "publishedAt": "2024-01-10T22:22:41Z",
+            "content": "Bray Capital Advisors reduced its stake in Tesla, Inc. (NASDAQ:TSLA – Free Report) by 17.2% during the 3rd quarter, according to the company in its most recent filing with the SEC. The fund owned 1,7… [+6442 chars]"
+        }
+    ]
+}
