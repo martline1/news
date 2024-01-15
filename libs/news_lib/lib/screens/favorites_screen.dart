@@ -2,13 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:news_lib/blocs/news/news_bloc.dart';
+import 'package:news_lib/blocs/news/news_events.dart';
 import 'package:news_lib/blocs/news/news_state.dart';
 import 'package:news_lib/models/article_model.dart';
 import 'package:news_lib/widgets/articles_list.dart';
 import 'package:news_lib/widgets/screen_message.dart';
 
-class FavoritesScreen extends StatelessWidget {
+class FavoritesScreen extends StatefulWidget {
   const FavoritesScreen({super.key});
+
+  @override
+  State<FavoritesScreen> createState() => _FavoritesScreenState();
+}
+
+class _FavoritesScreenState extends State<FavoritesScreen> {
+  @override
+  void initState() {
+    super.initState();
+
+    context.read<NewsBloc>().add(GetFavoritesFromDB());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +42,7 @@ class FavoritesScreen extends StatelessWidget {
           }
 
           return ScreenMessage(
-            label: 'News will appear once you add to favorites!',
+            label: 'News will appear once you add them to favorites!',
             icon: Icons.library_books_outlined,
             labelColor: Colors.grey[600]!,
             iconColor: Colors.grey[600]!,

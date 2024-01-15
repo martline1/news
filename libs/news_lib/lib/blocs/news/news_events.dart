@@ -27,11 +27,15 @@ class AddFavoriteArticle extends NewsEvent {
   AddFavoriteArticle(this.value);
 }
 
+// Methods
+class NewsRouteRendered extends NewsEvent {}
+
+class GetFavoritesFromDB extends NewsEvent {}
+
+class SyncDatabase extends NewsEvent {}
+
 class RemoveFromFavorites extends NewsEvent {
   final String id;
 
   RemoveFromFavorites(this.id);
 }
-
-// Methods
-class NewsRouteRendered extends NewsEvent {}

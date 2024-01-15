@@ -4,7 +4,6 @@ abstract class Routes {
 
   // App Routes
   static const appNews = '/app/news';
-  static const appNewsId = '/app/news/:id';
   static const appFavorites = '/app/favorites';
   static const appSettings = '/app/settings';
 }

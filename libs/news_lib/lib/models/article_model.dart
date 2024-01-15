@@ -46,4 +46,26 @@ class ArticleModel extends Equatable {
         urlToImage: json['urlToImage'] ?? '',
         content: json['content'] ?? '',
       );
+
+  factory ArticleModel.fromSqfLite(Map<String, dynamic> json) {
+    final String sourceName = json['sourceName'] ?? '';
+
+    json['source'] = {
+      'id': null,
+      'name': sourceName,
+    };
+
+    return ArticleModel.fromJson(json);
+  }
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "sourceName": source.name,
+        "author": author,
+        "title": title,
+        "description": description,
+        "url": url,
+        "urlToImage": urlToImage,
+        "content": content
+      };
 }

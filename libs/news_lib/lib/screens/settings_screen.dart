@@ -17,6 +17,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
   void initState() {
     super.initState();
 
+    context.read<NewsBloc>().add(GetFavoritesFromDB());
+
     final apiKey = context.read<NewsBloc>().state.apiKey;
 
     controller.text = apiKey;

@@ -16,12 +16,11 @@ class NewsScreen extends StatefulWidget {
 }
 
 class _NewsScreenState extends State<NewsScreen> {
-  final items = List<String>.generate(10000, (i) => 'Item $i');
-
   @override
   void initState() {
     super.initState();
 
+    context.read<NewsBloc>().add(GetFavoritesFromDB());
     context.read<NewsBloc>().add(NewsRouteRendered());
   }
 

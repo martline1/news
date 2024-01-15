@@ -11,7 +11,10 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
   NewsBloc()
       : super(const NewsState(
           loading: false,
-          apiKey: '',
+          // Api Key requested by hiring manager to be in code
+          // This can also be changed for any api key on the
+          // settings screen.
+          apiKey: '683357b0813844ad8df12f3bede6159f',
           articles: [],
           favorites: [],
         )) {
@@ -19,6 +22,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
     defineMethods();
   }
 
+  // Setters only emit a state change
   defineSetters() {
     on<SetLoading>((event, emit) {
       emit(state.copyWith(loading: event.value));
@@ -32,12 +36,16 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
     on<SetArticles>((event, emit) {
       emit(state.copyWith(articles: event.value));
     });
-    on<AddFavoriteArticle>((event, emit) {
-      emit(state.copyWith(favorites: List<ArticleModel>.from([event.value])));
-    });
   }
 
+  // Methods define logic that emits a series of events
+  // and calls services
   defineMethods() {
+    on<AddFavoriteArticle>((event, emit) {
+      NewsService.addFavorite(event.value);
+
+      emit(state.copyWith(favorites: List<ArticleModel>.from([event.value])));
+    });
     on<NewsRouteRendered>((event, emit) async {
       add(SetLoading(true));
 
@@ -51,16 +59,26 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
       add(SetLoading(false));
     });
     on<RemoveFromFavorites>((event, emit) {
-      List<ArticleModel> newFavorites =
-          List<ArticleModel>.empty(growable: true);
+      final articleToRemove = firstWhereOrNull(
+        state.articles,
+        (ArticleModel article) => article.id == event.id,
+      );
 
-      for (ArticleModel article in state.favorites) {
-        if (article.id != event.id) {
-          newFavorites.add(article);
-        }
-      }
+      if (articleToRemove == null) return;
 
-      emit(state.changeFavorites(newFavorites));
+      NewsService.removeFavoriteIfExists(articleToRemove.id);
+
+      emit(state.changeFavorites(
+        List<ArticleModel>.from(
+          state.favorites.where((article) => article.id != event.id),
+        ),
+      ));
+    });
+    on<GetFavoritesFromDB>((event, emit) async {
+      final List<ArticleModel> favorites =
+          await NewsService.getLocalFavorites();
+
+      emit(state.copyWith(favorites: favorites));
     });
   }
 }

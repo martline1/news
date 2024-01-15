@@ -11,7 +11,7 @@ class NewsRepository {
 
   static Future<Response> getNews(String apiKey) =>
       _dio.get(Uri(queryParameters: {
-        'q': 'flutter',
+        'q': 'headspace',
         'sortBy': 'publishedAt',
         'apiKey': apiKey,
       }).toString());

@@ -22,7 +22,7 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: Routes.splash,
       builder: (context, state) => const SplashScreen(
-        redirectTo: Routes.appSettings,
+        redirectTo: Routes.appNews,
       ),
     ),
     ShellRoute(
@@ -47,14 +47,6 @@ final GoRouter router = GoRouter(
           builder: (context, state) => const SettingsScreen(),
         ),
       ],
-    ),
-    GoRoute(
-      path: Routes.appNewsId,
-      builder: (context, state) {
-        return NewsDetailsScreen(
-          id: state.pathParameters['id']!,
-        );
-      },
     ),
   ],
 );
