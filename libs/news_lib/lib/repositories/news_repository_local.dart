@@ -4,23 +4,12 @@ import 'package:news_lib/models/article_model.dart';
 import 'package:news_lib/services/sqflite_service.dart';
 
 class NewsRepositoryLocal {
-  static Future initDatabase(Database database) async {
-    await database.execute("""
-      CREATE TABLE IF NOT EXISTS favorites (
-        "id" TEXT UNIQUE NOT NULL,
-        "sourceName" TEXT NOT NULL,
-        "author" TEXT NOT NULL,
-        "title" TEXT NOT NULL,
-        "description" TEXT NOT NULL,
-        "url" TEXT NOT NULL,
-        "urlToImage" TEXT NOT NULL,
-        "content" TEXT NOT NULL
-      );
-    """);
-  }
+  final SqfLiteService service;
 
-  static Future<List<ArticleModel>> getFavorites() async {
-    final database = await SqfLiteService.database;
+  NewsRepositoryLocal({required this.service});
+
+  Future<List<ArticleModel>> getFavorites() async {
+    final database = await service.database;
 
     final List<Map<String, dynamic>> results =
         await database.query('favorites');
@@ -30,8 +19,8 @@ class NewsRepositoryLocal {
     });
   }
 
-  static Future<ArticleModel?> findFavoriteById(String id) async {
-    final database = await SqfLiteService.database;
+  Future<ArticleModel?> findFavoriteById(String id) async {
+    final database = await service.database;
 
     final List<Map<String, dynamic>> result = await database.query(
       "favorites",
@@ -44,8 +33,8 @@ class NewsRepositoryLocal {
     return ArticleModel.fromSqfLite(result.first);
   }
 
-  static Future addFavorite(ArticleModel article) async {
-    final database = await SqfLiteService.database;
+  Future addFavorite(ArticleModel article) async {
+    final database = await service.database;
 
     await database.insert(
       'favorites',
@@ -54,8 +43,8 @@ class NewsRepositoryLocal {
     );
   }
 
-  static Future removeFavorite(String id) async {
-    final database = await SqfLiteService.database;
+  Future removeFavorite(String id) async {
+    final database = await service.database;
 
     await database.delete(
       'favorites',

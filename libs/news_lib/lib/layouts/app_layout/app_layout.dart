@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../blocs/news/news_bloc.dart';
@@ -10,7 +11,9 @@ class AppLayout extends StatelessWidget {
   final int currentIndex;
   final Widget child;
 
-  const AppLayout({
+  final GetIt getIt = GetIt.instance;
+
+  AppLayout({
     super.key,
     required this.child,
     required this.routes,
@@ -24,7 +27,7 @@ class AppLayout extends StatelessWidget {
         child: MultiBlocProvider(
           providers: [
             BlocProvider(
-              create: (BuildContext context) => NewsBloc(),
+              create: (BuildContext context) => NewsBloc(newsService: getIt()),
             ),
           ],
           child: child,

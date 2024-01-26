@@ -9,10 +9,11 @@ class NewsRepository {
     ),
   );
 
-  static Future<Response> getNews(String apiKey) =>
-      _dio.get(Uri(queryParameters: {
-        'q': 'headspace',
-        'sortBy': 'publishedAt',
-        'apiKey': apiKey,
-      }).toString());
+  Future<Response> getNews(String apiKey) => _dio.get(
+        Uri(queryParameters: {
+          'q': 'headspace',
+          'sortBy': 'publishedAt',
+          'apiKey': apiKey,
+        }).toString(),
+      );
 }

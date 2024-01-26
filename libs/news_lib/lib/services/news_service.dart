@@ -6,9 +6,17 @@ import 'package:news_lib/repositories/news_repository.dart';
 import 'package:news_lib/repositories/news_repository_local.dart';
 
 class NewsService {
-  static Future<NewsResponseModel?> getNews(String apiKey) async {
+  final NewsRepository repository;
+  final NewsRepositoryLocal repositoryLocal;
+
+  NewsService({
+    required this.repository,
+    required this.repositoryLocal,
+  });
+
+  Future<NewsResponseModel?> getNews(String apiKey) async {
     try {
-      final Response response = await NewsRepository.getNews(apiKey);
+      final Response response = await repository.getNews(apiKey);
 
       return NewsResponseModel.fromJson(response.data);
     } catch (_) {
@@ -16,10 +24,10 @@ class NewsService {
     }
   }
 
-  static Future<List<ArticleModel>> getLocalFavorites() async {
+  Future<List<ArticleModel>> getLocalFavorites() async {
     try {
       final List<ArticleModel> localFavorites =
-          await NewsRepositoryLocal.getFavorites();
+          await repositoryLocal.getFavorites();
 
       return localFavorites;
     } catch (_) {
@@ -27,31 +35,31 @@ class NewsService {
     }
   }
 
-  static Future addFavorite(ArticleModel article) async {
+  Future addFavorite(ArticleModel article) async {
     try {
       final ArticleModel? articleInDB =
-          await NewsRepositoryLocal.findFavoriteById(article.id);
+          await repositoryLocal.findFavoriteById(article.id);
 
       // Element already exists in the database
       if (articleInDB != null) return;
 
       // Else create it
-      await NewsRepositoryLocal.addFavorite(article);
+      await repositoryLocal.addFavorite(article);
     } catch (_) {
       return;
     }
   }
 
-  static Future removeFavoriteIfExists(String id) async {
+  Future removeFavoriteIfExists(String id) async {
     try {
       final ArticleModel? articleInDB =
-          await NewsRepositoryLocal.findFavoriteById(id);
+          await repositoryLocal.findFavoriteById(id);
 
       // Element doesn't exists in the database
       if (articleInDB == null) return;
 
       // if exists, delete it
-      await NewsRepositoryLocal.removeFavorite(id);
+      await repositoryLocal.removeFavorite(id);
     } catch (_) {
       return;
     }

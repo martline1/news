@@ -4,12 +4,14 @@ import 'package:equatable/equatable.dart';
 class NewsState extends Equatable {
   final bool loading;
   final String apiKey;
+  final bool loadArticles;
   final List<ArticleModel> articles;
   final List<ArticleModel> favorites;
 
   const NewsState({
     required this.loading,
     required this.apiKey,
+    required this.loadArticles,
     required this.articles,
     required this.favorites,
   });
@@ -19,6 +21,7 @@ class NewsState extends Equatable {
         loading,
         apiKey,
         articles,
+        loadArticles,
         favorites,
       ];
 
@@ -38,6 +41,7 @@ class NewsState extends Equatable {
   NewsState copyWith({
     bool? loading,
     String? apiKey,
+    bool? loadArticles,
     List<ArticleModel>? articles,
     List<ArticleModel>? favorites,
   }) {
@@ -56,6 +60,7 @@ class NewsState extends Equatable {
     return NewsState(
       loading: loading ?? this.loading,
       apiKey: apiKey ?? this.apiKey,
+      loadArticles: loadArticles ?? this.loadArticles,
       articles: mergedArticles,
       favorites: mergedFavoriteArticles,
     );
@@ -65,6 +70,7 @@ class NewsState extends Equatable {
     return NewsState(
       loading: loading,
       apiKey: apiKey,
+      loadArticles: loadArticles,
       articles: articles,
       favorites: favorites,
     );

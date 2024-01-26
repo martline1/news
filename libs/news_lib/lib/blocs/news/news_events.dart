@@ -27,8 +27,14 @@ class AddFavoriteArticle extends NewsEvent {
   AddFavoriteArticle(this.value);
 }
 
+class SetLoadArticles extends NewsEvent {
+  final bool value;
+
+  SetLoadArticles(this.value);
+}
+
 // Methods
-class NewsRouteRendered extends NewsEvent {}
+class GetArticles extends NewsEvent {}
 
 class GetFavoritesFromDB extends NewsEvent {}
 

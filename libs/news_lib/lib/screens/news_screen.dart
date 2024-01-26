@@ -21,7 +21,7 @@ class _NewsScreenState extends State<NewsScreen> {
     super.initState();
 
     context.read<NewsBloc>().add(GetFavoritesFromDB());
-    context.read<NewsBloc>().add(NewsRouteRendered());
+    context.read<NewsBloc>().add(GetArticles());
   }
 
   @override

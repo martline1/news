@@ -8,16 +8,22 @@ import 'news_state.dart';
 import '../../utils/utils.dart';
 
 class NewsBloc extends Bloc<NewsEvent, NewsState> {
-  NewsBloc()
-      : super(const NewsState(
-          loading: false,
-          // Api Key requested by hiring manager to be in code
-          // This can also be changed for any api key on the
-          // settings screen.
-          apiKey: '683357b0813844ad8df12f3bede6159f',
-          articles: [],
-          favorites: [],
-        )) {
+  final NewsService newsService;
+
+  static const NewsState initialState = NewsState(
+    loading: false,
+    // Api Key requested by hiring manager to be in code
+    // This can also be changed for any api key on the
+    // settings screen.
+    apiKey: '683357b0813844ad8df12f3bede6159f',
+    loadArticles: true,
+    articles: [],
+    favorites: [],
+  );
+
+  NewsBloc({
+    required this.newsService,
+  }) : super(initialState) {
     defineSetters();
     defineMethods();
   }
@@ -36,21 +42,33 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
     on<SetArticles>((event, emit) {
       emit(state.copyWith(articles: event.value));
     });
+    on<SetLoadArticles>((event, emit) {
+      emit(state.copyWith(loadArticles: event.value));
+    });
   }
 
   // Methods define logic that emits a series of events
   // and calls services
   defineMethods() {
     on<AddFavoriteArticle>((event, emit) {
-      NewsService.addFavorite(event.value);
+      newsService.addFavorite(event.value);
 
       emit(state.copyWith(favorites: List<ArticleModel>.from([event.value])));
     });
-    on<NewsRouteRendered>((event, emit) async {
+    on<GetArticles>((event, emit) async {
+      if (!state.loadArticles) return;
+
+      add(SetLoadArticles(false));
+
+      // Fetch data only every 30 seconds
+      Future.delayed(const Duration(seconds: 30), () {
+        add(SetLoadArticles(true));
+      });
+
       add(SetLoading(true));
 
       final NewsResponseModel? newsResponse =
-          await NewsService.getNews(state.apiKey);
+          await newsService.getNews(state.apiKey);
 
       if (newsResponse != null) {
         add(SetArticles(newsResponse.articles));
@@ -60,13 +78,13 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
     });
     on<RemoveFromFavorites>((event, emit) {
       final articleToRemove = firstWhereOrNull(
-        state.articles,
+        state.favorites,
         (ArticleModel article) => article.id == event.id,
       );
 
       if (articleToRemove == null) return;
 
-      NewsService.removeFavoriteIfExists(articleToRemove.id);
+      newsService.removeFavoriteIfExists(articleToRemove.id);
 
       emit(state.changeFavorites(
         List<ArticleModel>.from(
@@ -76,7 +94,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
     });
     on<GetFavoritesFromDB>((event, emit) async {
       final List<ArticleModel> favorites =
-          await NewsService.getLocalFavorites();
+          await newsService.getLocalFavorites();
 
       emit(state.copyWith(favorites: favorites));
     });
